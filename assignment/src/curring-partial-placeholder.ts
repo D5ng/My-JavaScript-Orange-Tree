@@ -10,9 +10,9 @@
 type Func = (...args: any[]) => any
 
 const curry = (function () {
-  const curry = (func: Func) => {
+  const curryInternal = (func: Func) => {
     const curried = (...args: any[]) => {
-      const hasPlaceholder = args.includes(curry.placeholder)
+      const hasPlaceholder = args.includes(curryInternal.placeholder)
 
       if (func.length === args.length && !hasPlaceholder) {
         return func(...args)
@@ -27,9 +27,9 @@ const curry = (function () {
     return curried
   }
 
-  curry.placeholder = "placeholder"
+  curryInternal.placeholder = "placeholder"
 
-  return curry
+  return curryInternal
 })()
 
 const join = (a: string, b: string, c: string) => `${a}_${b}_${c}`
