@@ -6,14 +6,13 @@
 
 type Executor = (resolve: Resolve, rejected: Rejected) => void
 
-type Status = "pending" | "fulfilled" | "rejected"
-
+type PromiseState = "pending" | "fulfilled" | "rejected"
 type Resolve = (value: unknown) => void
 type Rejected = (reason?: any) => void
 
 class MyPromise {
-  status: Status = "pending"
-  value: any = null
+  promiseState: PromiseState = "pending"
+  promiseResult: any = null
   queue: any[] = []
 
   constructor(executor: Executor) {
@@ -21,24 +20,28 @@ class MyPromise {
   }
 
   resolve(value: unknown) {
-    if (this.status !== "pending") {
+    if (this.promiseState !== "pending") {
       return
     }
 
-    this.status = "fulfilled"
-    this.value = value
+    this.promiseState = "fulfilled"
+    this.promiseResult = value
 
-    this.queue.forEach((fn) => queueMicrotask(() => fn(value)))
+    this.queue.forEach((fn) =>
+      queueMicrotask(() => {
+        fn(value)
+      })
+    )
     this.queue = []
   }
 
   rejected(reason?: any) {
-    this.status = "rejected"
+    this.promiseState = "rejected"
   }
 
   then(onFulfilled: (...args: any[]) => void) {
     return new MyPromise((resolve, rejected) => {
-      if (this.status === "pending") {
+      if (this.promiseState === "pending") {
         this.queue.push((value: any) => {
           const nextThenValue = onFulfilled(value)
           resolve(nextThenValue)
