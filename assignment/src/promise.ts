@@ -44,6 +44,40 @@ class MyPromise<T> {
 
   then(onFulfilled: Resolve<T> | undefined, onRejected?: Reject) {
     return new MyPromise<T>((resolve, reject) => {
+      if (this.promiseState === "fulfilled") {
+        this.resolveQueue.push((value: T) => {
+          queueMicrotask(() => {
+            if (onFulfilled) {
+              try {
+                const fulfilledValue = onFulfilled(value)
+                resolve(fulfilledValue as T)
+              } catch (error) {
+                reject(error)
+              }
+            } else {
+              resolve(value)
+            }
+          })
+        })
+      }
+
+      if (this.promiseState === "rejected") {
+        this.rejectQueue.push((reason: any) => {
+          queueMicrotask(() => {
+            if (onRejected) {
+              try {
+                const rejectedValue = onRejected(reason)
+                resolve(rejectedValue as T)
+              } catch (error) {
+                reject(error)
+              }
+            } else {
+              reject(reason)
+            }
+          })
+        })
+      }
+
       if (this.promiseState === "pending") {
         this.resolveQueue.push((value: T) => {
           queueMicrotask(() => {
@@ -85,13 +119,8 @@ const p = new MyPromise<number>((resolve, reject) => {
   }, 300)
 })
 
-// const p = new Promise<number>((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve(1)
-//   }, 300)
-// })
-
 console.log("start")
+
 p.then((value) => value + 1)
   .then((value) => {
     if (value < 10) {
@@ -100,6 +129,9 @@ p.then((value) => value + 1)
 
     return value
   })
-  .catch(console.log)
+  .catch((error) => {
+    return 100
+  })
+  .then((value) => console.log(value))
 
 console.log("end")
