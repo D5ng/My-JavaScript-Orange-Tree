@@ -15,6 +15,10 @@ class MyPromise<T> {
     executor(bindingResolve, bindingReject)
   }
 
+  static resolve<T>(value: T) {
+    return new MyPromise<T>((resolve) => resolve(value))
+  }
+
   private _resolve(value: T) {
     if (this.promiseState !== "pending") {
       return
@@ -75,8 +79,8 @@ class MyPromise<T> {
       }
 
       const lookupTable = {
-        fulfilled: () => this.resolveQueue.push(enqueueFulfilled),
-        rejected: () => this.rejectQueue.push(enqueueRejected),
+        fulfilled: () => enqueueFulfilled(this.promiseResult as T),
+        rejected: () => enqueueRejected(this.promiseResult),
         pending: () => {
           this.resolveQueue.push(enqueueFulfilled)
           this.rejectQueue.push(enqueueRejected)
@@ -88,11 +92,13 @@ class MyPromise<T> {
   }
 }
 
-const p = new MyPromise<number>((resolve, reject) => {
-  setTimeout(() => {
-    resolve(1)
-  }, 1000)
-})
+const p = MyPromise.resolve(100)
+
+// const p = new MyPromise<number>((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve(1)
+//   }, 1000)
+// })
 
 console.log("start")
 
