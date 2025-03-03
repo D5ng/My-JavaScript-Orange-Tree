@@ -19,6 +19,10 @@ class MyPromise<T> {
     return new MyPromise<T>((resolve) => resolve(value))
   }
 
+  static reject<T>(value: T) {
+    return new MyPromise<T>((_, reject) => reject(value))
+  }
+
   private _resolve(value: T) {
     if (this.promiseState !== "pending") {
       return
@@ -91,28 +95,3 @@ class MyPromise<T> {
     })
   }
 }
-
-const p = MyPromise.resolve(100)
-
-// const p = new MyPromise<number>((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve(1)
-//   }, 1000)
-// })
-
-console.log("start")
-
-p.then((value) => value + 1)
-  .then((value) => {
-    if (value < 10) {
-      throw new Error("value가 10보다 작아요")
-    }
-
-    return value
-  })
-  .catch((error) => {
-    return 100
-  })
-  .then((value) => console.log(value))
-
-console.log("end")
