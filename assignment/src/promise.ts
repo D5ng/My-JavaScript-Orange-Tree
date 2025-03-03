@@ -1,5 +1,5 @@
 type Executor<T> = (resolve: Resolve<T>, reject: Reject) => void
-type Resolve<T extends unknown> = (value: T) => void
+type Resolve<T extends unknown> = (value: T) => void | T
 type Reject = (reason?: any) => void
 
 class MyPromise<T> {
@@ -15,7 +15,7 @@ class MyPromise<T> {
     executor(bindingResolve, bindingReject)
   }
 
-  private _resolve(value: any) {
+  private _resolve(value: T) {
     if (this.promiseState !== "pending") {
       return
     }
@@ -38,16 +38,24 @@ class MyPromise<T> {
     this.rejectQueue = []
   }
 
-  then(onFulfilled: Resolve<T>, onRejected?: Reject) {
-    return new MyPromise((resolve, reject) => {
+  catch(onRejected: Reject) {
+    return this.then(undefined, onRejected)
+  }
+
+  then(onFulfilled: Resolve<T> | undefined, onRejected?: Reject) {
+    return new MyPromise<T>((resolve, reject) => {
       if (this.promiseState === "pending") {
-        this.resolveQueue.push((value: any) => {
+        this.resolveQueue.push((value: T) => {
           queueMicrotask(() => {
-            try {
-              const fulfilledValue = onFulfilled(value)
-              resolve(fulfilledValue)
-            } catch (error) {
-              reject(error)
+            if (onFulfilled) {
+              try {
+                const fulfilledValue = onFulfilled(value)
+                resolve(fulfilledValue as T)
+              } catch (error) {
+                reject(error)
+              }
+            } else {
+              resolve(value)
             }
           })
         })
@@ -57,7 +65,7 @@ class MyPromise<T> {
             if (onRejected) {
               try {
                 const rejectedValue = onRejected(reason)
-                resolve(rejectedValue)
+                resolve(rejectedValue as T)
               } catch (error) {
                 reject(error)
               }
@@ -77,6 +85,21 @@ const p = new MyPromise<number>((resolve, reject) => {
   }, 300)
 })
 
+// const p = new Promise<number>((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve(1)
+//   }, 300)
+// })
+
 console.log("start")
-p.then((value) => value + 1).then(console.log)
+p.then((value) => value + 1)
+  .then((value) => {
+    if (value < 10) {
+      throw new Error("value가 10보다 작아요")
+    }
+
+    return value
+  })
+  .catch(console.log)
+
 console.log("end")
