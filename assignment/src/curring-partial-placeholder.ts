@@ -16,6 +16,10 @@ type Func = (...args: any[]) => any
 export const curry = (function () {
   const curryInternal = (func: Func) => {
     const curried = (...args: any[]) => {
+      if (func.length < args.length) {
+        throw new Error(`최대 ${func.length}개수의 인수를 예상했지만, ${args.length}를 받았습니다`)
+      }
+
       const hasPlaceholder = args.includes(curryInternal.placeholder)
 
       if (func.length === args.length && !hasPlaceholder) {
