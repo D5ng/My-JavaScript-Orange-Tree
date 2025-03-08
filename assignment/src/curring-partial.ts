@@ -15,6 +15,10 @@ type CurryFunction<T> = (...args: any[]) => T
 
 export const curry = <T>(fn: CurryFunction<T>) => {
   const curried = (...args: any[]) => {
+    if (fn.length < args.length) {
+      throw new Error(`최대 ${fn.length}개수의 인수를 예상했지만, ${args.length}를 받았습니다`)
+    }
+
     if (fn.length === args.length) {
       return fn(...args) as ReturnType<CurryFunction<T>>
     }
