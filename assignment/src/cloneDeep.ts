@@ -2,9 +2,9 @@
 // Todo: ✅ 1단계 객체만 복사하기. (깊은 복사X)
 // Todo: ✅ 2단계 객체만 복사하기. (깊은 복사)
 // Todo: ✅ 3단계 배열 복사하기.
-function cloneDeep<T extends Record<string, any>>(target: T): T
-function cloneDeep<T>(target: T[]): T[]
-function cloneDeep<T>(target: T) {
+export function cloneDeep<T extends Record<string, any>>(target: T): T
+export function cloneDeep<T>(target: T[]): T[]
+export function cloneDeep<T>(target: T) {
   if (target === null) {
     return null
   }
