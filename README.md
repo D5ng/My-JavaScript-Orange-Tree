@@ -12,12 +12,12 @@
 -
 
 ### 과제
-- cloneDeep
-- memoize
-- curring-partial
-- curring-paratial-placeholder
+- [cloneDeep](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/cloneDeep.ts)
+- [memoize](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/memoize.ts)
+- [curring-partial](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/curring-partial.ts)
+- [curring-paratial-placeholder](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/curring-partial-placeholder.ts)
 
 
 ### 이론
-- 원시타입과 참조타입
-- 콜백 함수
+- [원시타입과 참조타입](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/theoretical/core/primitive-reference-type.md)
+- [콜백 함수](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/theoretical/core/callback.md)
