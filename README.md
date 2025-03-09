@@ -12,7 +12,12 @@
 -
 
 ### 과제
--
+- cloneDeep
+- memoize
+- curring-partial
+- curring-paratial-placeholder
+
 
 ### 이론
-- 
+- 원시타입과 참조타입
+- 콜백 함수
