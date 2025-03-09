@@ -15,7 +15,7 @@
 - [cloneDeep](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/cloneDeep.ts)
 - [memoize](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/memoize.ts)
 - [curring-partial](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/curring-partial.ts)
-- [curring-paratial-placeholder](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/curring-partial-placeholder.ts)
+- [curring-partial-placeholder](https://github.com/D5ng/My-JavaScript-Orange-Tree/blob/main/assignment/src/curring-partial-placeholder.ts)
 
 
 ### 이론
