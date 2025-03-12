@@ -8,8 +8,7 @@
 
 export function chunk(arr: any[], size: number) {
   if (size < 1) {
-    console.warn(`두번째 매개변수(size)에는 1이상의 값을 넣어주어야 합니다.`)
-    return []
+    throw Error(`두번째 매개변수(size)에는 1이상의 값을 넣어주어야 합니다.`)
   }
 
   if (arr.length === 0) {

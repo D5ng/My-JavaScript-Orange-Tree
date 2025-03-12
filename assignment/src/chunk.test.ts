@@ -19,4 +19,8 @@ describe("청크 함수 테스트", () => {
   test("Empty Array", () => {
     expect(chunk([], 5)).toEqual([])
   })
+
+  test("Size가 1보다 작을 때", () => {
+    expect(() => chunk([1, 2, 3, 4], 0)).toThrow(Error)
+  })
 })
