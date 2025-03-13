@@ -2,7 +2,7 @@ type Executor<T> = (resolve: Resolve<T>, reject: Reject) => void
 type Resolve<T extends unknown> = (value: T) => void | T
 type Reject = (reason?: any) => void
 
-class MyPromise<T> {
+export default class MyPromise<T> {
   private promiseState: "pending" | "fulfilled" | "rejected" = "pending"
   private promiseResult: T | null | undefined = null
   private resolveQueue: any[] = []
@@ -93,5 +93,9 @@ class MyPromise<T> {
 
       lookupTable[this.promiseState]()
     })
+  }
+
+  finally(onFinally: () => void) {
+    return this.then(onFinally, onFinally)
   }
 }
