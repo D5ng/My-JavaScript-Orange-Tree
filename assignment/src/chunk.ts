@@ -6,7 +6,7 @@
  * chunk([], 5) => []
  */
 
-export function chunk(arr: any[], size: number = 1) {
+export function chunk<T>(arr: T[], size: number = 1) {
   if (size < 1) {
     throw Error(`두번째 매개변수(size)에는 1이상의 값을 넣어주어야 합니다.`)
   }
