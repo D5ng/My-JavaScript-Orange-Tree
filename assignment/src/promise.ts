@@ -12,7 +12,11 @@ export default class MyPromise<T> {
     const bindingResolve = this._resolve.bind(this)
     const bindingReject = this._reject.bind(this)
 
-    executor(bindingResolve, bindingReject)
+    try {
+      executor(bindingResolve, bindingReject)
+    } catch (error) {
+      bindingReject(error)
+    }
   }
 
   static resolve<T>(value: T) {
