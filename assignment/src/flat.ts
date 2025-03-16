@@ -10,9 +10,10 @@
  */
 
 export function flat<T>(arr: T[], depth: number = 1) {
-  let flatten: any[] = []
-  // Todo: 배열의 Empty 슬롯이 있다면 없애버리기
-  const notEmptyArray = arr.filter(() => true)
+  // Todo: arr 값이 배열이 아니라면~
+  if (!Array.isArray(arr)) {
+    throw new Error(`arr의 값은 배열이여야만 합니다.`)
+  }
 
   // Todo: depth가 0보다 작다면~
   if (depth < 0) {
@@ -23,6 +24,10 @@ export function flat<T>(arr: T[], depth: number = 1) {
   if (depth === 0) {
     return arr
   }
+
+  let flatten: any[] = []
+  // Todo: 배열의 Empty 슬롯이 있다면 없애버리기
+  const notEmptyArray = arr.filter(() => true)
 
   // Todo: 더 이상 배열을 평탄화할 수 없을 때
   const isFlattened = notEmptyArray.every((value) => !Array.isArray(value)) && depth > 0
